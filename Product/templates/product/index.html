@@ -1,15 +1,14 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-<h1>FARMING MARKET</h1>
-
 {% for product in products %}
 
     <h2>{{ product.name }}</h2>
     <h2>{{ product.quantity }}</h2>
     <h2>{{ product.price }}</h2>
     <img src="{{ product.thumbnail.url }}" alt="{{ product.name }}" style="max-width: 250px;">
+
+    <a href="{{ product.get_absolute_url }}">View Product</a>
 
 {% endfor %} 
 {% endblock %}
