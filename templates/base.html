@@ -7,6 +7,12 @@
 </head>
 <body>
     <a href="{% url 'index' %}"><h1>FARMING MARKET</h1></a>
+
+    <form method=POST action="{% url 'search_product' %}">
+        {% csrf_token %}
+        <input type="search" name="searched" placeholder="Search Products">
+        <button type="submit">Search</button>
+    </form>
     
     {% if not user.is_authenticated %}
 

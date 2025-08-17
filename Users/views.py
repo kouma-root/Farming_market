@@ -44,7 +44,6 @@ def logout_view(request):
     logout(request)
     return redirect('index')
 
-
 @login_required
 def allUsers_view(request):
     users = CustomUser.objects.all()

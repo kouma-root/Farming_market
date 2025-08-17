@@ -7,7 +7,7 @@ class Item(models.Model):
         ('Sold Out', 'sold out'),
     ]
     name = models.CharField(max_length=128)
-    slug = models.SlugField(max_length=128)
+    slug = models.SlugField(max_length=128, default="", null=False)
     cathegory = models.CharField(max_length=50)
     quantity = models.IntegerField(default=0)
     price = models.FloatField(default=0.0)

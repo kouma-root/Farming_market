@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if searched %}
+        <h1>You search for .... {{ searched }} </h1>  
+        <br>
+        {% for product in products %}
+         <img src="{{ product.thumbnail.url }}" alt="{{ product.name }}" style="max-width: 250px;"> <br>
+             <a href="{{ product.get_absolute_url }}">{{ product.name }}</a>
+            <br>
+        {% endfor %}
+
+    {% else %}
+        <h1>No item found</h1>
+    {% endif %} 
+{% endblock %}
