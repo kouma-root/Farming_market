@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from Product.models import Item
 
 from django.http import HttpResponse
@@ -18,3 +18,5 @@ def search_product(request):
         searched = request.POST.get('searched')
         products = Item.objects.filter(name__contains= searched)
         return render(request, 'product/search_product.html', context= {'searched': searched, 'products': products})
+    else:
+        return redirect('index')
