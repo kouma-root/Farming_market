@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 class Item(models.Model):
     States =[
@@ -16,3 +17,8 @@ class Item(models.Model):
 
     def __str__(self) -> str:
         return self.name
+    
+    
+    def get_absolute_url(self):
+        
+        return reverse('product', kwargs={'slug':self.slug})
