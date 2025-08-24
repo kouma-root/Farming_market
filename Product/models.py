@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from Users.models import CustomUser
 
 class Item(models.Model):
     States =[
@@ -14,6 +15,9 @@ class Item(models.Model):
     description = models.TextField(blank=True)
     status = models.CharField(max_length=25, choices=States)
     thumbnail = models.ImageField(upload_to='products', blank=True, null=True)
+    owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='owned_items')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
         return self.name
