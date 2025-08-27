@@ -1,6 +1,9 @@
 from django.db import models
 from django.urls import reverse
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.utils import timezone
+import Request
 from Users.models import CustomUser
 
 
@@ -29,5 +32,20 @@ class Item(models.Model):
         
         return reverse('product', kwargs={'slug':self.slug})
     
+    def update_status(self):
+        if self.quantity == 0:
+            self.status = 'Out of Stock'
+        else:
+            self.status = 'Available'
     
+@receiver(post_save, sender=Item)
+def update_item_status(sender, instance, **kwargs):
     
+    if instance.quantity == 0:
+        correct_status = 'Out of Stock'
+    else:
+        correct_status = 'Available'
+        
+    if instance.status != correct_status:
+        instance.status = correct_status
+        instance.save(update_fields=['status'])

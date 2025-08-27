@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Welcome, {{ user.username }} (Farmer)</h2>
+<p>Email: {{ user.email }}</p>
+<p>Location: {{ user.location }}</p>
+
+<h3>Statistics</h3>
+<table>
+    <tr>
+        <th>Status</th>
+        <th>Count</th>
+    </tr>
+    <tr>
+        <td>Total Products</td>
+        <td>{{ stats.total_products }}</td>
+    </tr>
+    <tr>
+        <td>Total Requests</td>
+        <td>{{ stats.total_requests }}</td>
+    </tr>
+    <tr>
+        <td>Pending Requests</td>
+        <td>{{ stats.pending_requests }}</td>
+    </tr>
+    <tr>
+        <td>Approved Requests</td>
+        <td>{{ stats.approved_requests }}</td>
+    </tr>
+    <tr>
+        <td>Rejected Requests</td>
+        <td>{{ stats.rejected_requests }}</td>
+    </tr>
+    <tr>
+        <td>Cancelled Requests</td>
+        <td>{{ stats.cancelled_requests }}</td>
+    </tr>
+</table>
+
+<h3>Your Products</h3>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Quantity</th>
+        <th>Status</th>
+        <th>Created At</th>
+    </tr>
+    {% for product in products %}
+    <tr>
+        <td>{{ product.name }}</td>
+        <td>{{ product.quantity }}</td>
+        <td>{{ product.status }}</td>
+        <td>{{ product.created_at }}</td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="4">No products found.</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h3>Recent Requests</h3>
+<table>
+    <tr>
+        <th>Buyer</th>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Status</th>
+    </tr>
+    {% for req in requests|slice:":5" %}
+    <tr>
+        <td>{{ req.buyer.username }}</td>
+        <td>{{ req.product.name }}</td>
+        <td>{{ req.quantity }}</td>
+        <td>{{ req.status }}</td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="4">No requests found.</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

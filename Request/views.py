@@ -17,8 +17,8 @@ def create_request_buyers(request, product_id):
             req.buyer = request.user
             req.product = product
             req.save()
-            
-            return redirect("buyer_dashboard")
+
+            return redirect("buyer_requests")
     else:
         form = RequestForm()
         
@@ -31,7 +31,7 @@ def create_request_buyers(request, product_id):
 def farmers_request_view(request):
     
     products = Item.objects.filter(owner= request.user)
-    request_list = Request.objects.filter(product__in = products).select_related('buyers')
+    request_list = Request.objects.filter(product__in = products).select_related('buyer')
 
     return render(request, 'request/farmer_requests.html', context= {'requests': request_list})
 
@@ -57,7 +57,7 @@ def cancel_request(request, request_id):
 @login_required
 @buyer_required
 def buyer_requests_list(request):
-    requests = Request.objects.filter(buyers=request.user)
+    requests = Request.objects.filter(buyer=request.user)
     return render(request, 'request/buyer_requests.html', {'requests': requests})
 
 

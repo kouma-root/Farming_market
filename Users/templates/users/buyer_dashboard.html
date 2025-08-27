@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Welcome, {{ user.username }} (Buyer)</h2>
+<p>Email: {{ user.email }}</p>
+<p>Location: {{ user.location }}</p>
+
+<h3>Statistics</h3>
+
+<table>
+    <tr>
+        <th>Status</th>
+        <th>Count</th>
+    </tr>
+    <tr>
+        <td>Total Requests</td>
+        <td>{{ stats.total_requests }}</td>
+    </tr>
+    <tr>
+        <td>Pending Requests</td>
+        <td>{{ stats.pending_requests }}</td>
+    </tr>
+    <tr>
+        <td>Approved Requests</td>
+        <td>{{ stats.approved_requests }}</td>
+    </tr>
+    <tr>
+        <td>Rejected Requests</td>
+        <td>{{ stats.rejected_requests }}</td>
+    </tr>
+    <tr>
+        <td>Cancelled Requests</td>
+        <td>{{ stats.cancelled_requests }}</td>
+    </tr>
+</table>
+
+<h3>Your Recent Requests</h3>
+<table>
+    <tr>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Status</th>
+    </tr>
+    {% for req in requests|slice:":5" %}
+    <tr>
+        <td>{{ req.product.name }}</td>
+        <td>{{ req.quantity }}</td>
+        <td>{{ req.status }}</td>
+    </tr>
+    {% empty %}
+</table>
+{% endblock %}

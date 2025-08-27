@@ -7,13 +7,15 @@
     <tr>
         <th>Product</th>
         <th>Status</th>
-        <th>Date</th>
+        <th>Requested At</th>
+        <th>Last Updated</th>
     </tr>
     {% for req in requests %}
     <tr>
         <td>{{ req.product.name }}</td>
         <td>{{ req.status }}</td>
         <td>{{ req.created_at }}</td>
+        <td>{{ req.updated_at|date:"Y-m-d H:i" }}</td>
         <td>
             {% if req.status == "Pending" %}
                 <a href="{% url 'delete_request' req.id %}">Delete</a>

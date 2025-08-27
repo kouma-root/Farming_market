@@ -1,11 +1,13 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Farming Market</title>
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
+    <title>{% block title %}Farming Market{% endblock %}</title>
     <a href="{% url 'index' %}"><h1>FARMING MARKET</h1></a>
 
     <form method=POST action="{% url 'search_product' %}">
@@ -24,13 +26,15 @@
         {{ user.username }}
         <a href="{% url 'logout' %}">Logout</a>
         <a href="{% url 'index' %}">Market</a>
-        <a href="{% url 'allUsers' %}">All Users</a>
-        
         {% if user.profile.is_farmer %}
         <a href="{% url 'add_product' %}">Add Product</a>
+        <a href="{% url 'allUsers' %}">All Buyers</a>
+        <a href="{% url 'farmer_dashboard' %}">Dashboard</a>
         <a href="{% url 'farmer_requests' %}">View Requests</a>
         {% else %}
         <a href="{% url 'buyer_requests' %}">Your Requests</a>
+        <a href="{% url 'allUsers' %}">All Farmers</a>
+        <a href="{% url 'buyer_dashboard' %}">Dashboard</a>
         {% endif %}
         
     {% endif %}

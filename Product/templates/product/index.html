@@ -3,9 +3,10 @@
 {% block content %}
 {% for product in products %}
 
-    <h2>{{ product.name }}</h2>
-    <h2>{{ product.quantity }}</h2>
-    <h2>{{ product.price }}</h2>
+    <h2>Name: {{ product.name }}</h2>
+    <h2>Quantity: {{ product.quantity }}</h2>
+    <h2>Price: {{ product.price }}</h2>
+    <h2>Owner: {{ product.owner.username }}</h2>
     <img src="{{ product.thumbnail.url }}" alt="{{ product.name }}" style="max-width: 250px;">
 
     <a href="{{ product.get_absolute_url }}">View Product</a>
