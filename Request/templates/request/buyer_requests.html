@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Your Requests</h2>
+<table>
+    <tr>
+        <th>Product</th>
+        <th>Status</th>
+        <th>Date</th>
+    </tr>
+    {% for req in requests %}
+    <tr>
+        <td>{{ req.product.name }}</td>
+        <td>{{ req.status }}</td>
+        <td>{{ req.created_at }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

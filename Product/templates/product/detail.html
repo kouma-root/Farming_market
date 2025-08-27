@@ -6,4 +6,14 @@
 <img src="{{ product.thumbnail.url }}" alt="{{ product.name }}" style="max-width: 250px;">
 <p>{{product.description}}</p>
 <h3> {{product.quantity}} </h3>
+
+{% if user.profile.is_farmer %}
+    <a href="{% url 'edit_product' product.id %}">Edit Product</a>
+    <a href="{% url 'delete_product' product.id %}">Delete Product</a>
+{% endif %}
+
+{% if user.profile.is_buyer %}
+    <a href="{% url 'create_request' product.id %}">Create Request</a>
+{% endif %}
+
 {% endblock %}

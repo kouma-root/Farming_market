@@ -9,6 +9,7 @@
     <img src="{{ product.thumbnail.url }}" alt="{{ product.name }}" style="max-width: 250px;">
 
     <a href="{{ product.get_absolute_url }}">View Product</a>
+    <a href="{% url 'index' %}">cancel</a>
 
 {% endfor %} 
 {% endblock %}

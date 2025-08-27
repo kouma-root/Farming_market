@@ -1,0 +1,29 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Requests for Your Products</h2>
+<table>
+    <tr>
+        <th>Product</th>
+        <th>Buyer</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+    {% for req in requests %}
+    <tr>
+        <td>{{ req.product.name }}</td>
+        <td>{{ req.buyer.username }}</td>
+        <td>{{ req.status }}</td>
+        <td>
+            {% if req.status == "Pending" %}
+                <a href="{% url 'update_request_status' req.id 'Approved' %}">Approve</a>
+                <a href="{% url 'update_request_status' req.id 'Rejected' %}">Reject</a>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

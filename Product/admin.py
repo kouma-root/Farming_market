@@ -1,8 +1,8 @@
 from django.contrib import admin
 from .models import Item
-    
+
 class ItemAdmin(admin.ModelAdmin):
-    list_display = ( 'name', 'slug', 'cathegory', 'quantity', 'price',)
+    list_display = ( 'name', 'slug', 'cathegory', 'quantity', 'price','owner',)
     prepopulated_fields = {'slug': ('name',),}
     
 

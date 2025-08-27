@@ -25,7 +25,14 @@
         <a href="{% url 'logout' %}">Logout</a>
         <a href="{% url 'index' %}">Market</a>
         <a href="{% url 'allUsers' %}">All Users</a>
-
+        
+        {% if user.profile.is_farmer %}
+        <a href="{% url 'add_product' %}">Add Product</a>
+        <a href="{% url 'farmer_requests' %}">View Requests</a>
+        {% else %}
+        <a href="{% url 'buyer_requests' %}">Your Requests</a>
+        {% endif %}
+        
     {% endif %}
     {% block content %}
         
