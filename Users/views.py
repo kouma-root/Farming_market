@@ -5,7 +5,7 @@ from .forms import CustomerUserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import CustomUser
+from .models import CustomUser, Profile
 
 #Register view for all user with status ( Farmers/Buyers)
 def register_view(request):
@@ -45,6 +45,11 @@ def logout_view(request):
     return redirect('index')
 
 @login_required
-def allUsers_view(request):
-    users = CustomUser.objects.all()
-    return render(request, 'users/allUsers_view.html', context={'users': users})
+def all_users_view(request):
+    users = CustomUser.objects.all().select_related('profile')
+    buyers = [user for user in users if hasattr(user, 'profile') and user.profile.is_buyer]
+    farmers = [user for user in users if hasattr(user, 'profile') and user.profile.is_farmer]
+    return render(request, 'users/allUsers_view.html', {
+        'buyers': buyers,
+        'farmers': farmers,
+    })

@@ -14,12 +14,15 @@
     {% for req in requests %}
     <tr>
         <td>{{ req.product.name }}</td>
-        <td>{{ req.buyer.username }}</td>
+        <td>{{ req.buyers.username }}</td>
         <td>{{ req.status }}</td>
         <td>
-            {% if req.status == "Pending" %}
+            {% if req.status == "Pending" or req.status == "Cancelled" %}
                 <a href="{% url 'update_request_status' req.id 'Approved' %}">Approve</a>
                 <a href="{% url 'update_request_status' req.id 'Rejected' %}">Reject</a>
+            {% endif %}
+            {% if req.status == "Approved" %}
+                <a href="{% url 'cancel_request' req.id %}">Cancel</a>
             {% endif %}
         </td>
     </tr>

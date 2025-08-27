@@ -1,16 +1,54 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{% for user in users %}
 
-    <h2>{{ user.username }}</h2>
-    <h2>{{ user.email }}</h2>
-    <h2>{{ user.role }}</h2>
-    <h2>{{ user.location }}</h2>
-    <h2>{{ user.phone_number }}</h2>
-    <h2>{{ user.create_at }}</h2>
+{% if request.user.profile.is_farmer %}
+    <h2>All Buyers</h2>
+    {% if buyers %}
+    <table>
+        <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Location</th>
+        </tr>
+        {% for user in buyers %}
+            <tr>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.role }}</td>
+                <td>{{ user.location }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+        <p>No buyers found.</p>
+    {% endif %}
+{% endif %}
+
+{% if request.user.profile.is_buyer %}
     <hr>
+    <h2>All Farmers</h2>
+    {% if farmers %}
+    <table>
+        <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Location</th>
+        </tr>
+        {% for user in farmers %}
+            <tr>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.role }}</td>
+                <td>{{ user.location }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+        <p>No farmers found.</p>
+    {% endif %}
+{% endif %}
 
-
-{% endfor %} 
 {% endblock %}

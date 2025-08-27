@@ -31,8 +31,8 @@ def create_request_buyers(request, product_id):
 def farmers_request_view(request):
     
     products = Item.objects.filter(owner= request.user)
-    request_list = Request.objects.filter(product__in = products)
-    
+    request_list = Request.objects.filter(product__in = products).select_related('buyers')
+
     return render(request, 'request/farmer_requests.html', context= {'requests': request_list})
 
 
@@ -40,13 +40,18 @@ def farmers_request_view(request):
 @farmer_required
 def update_request_status(request, request_id, status):
     
-    req = get_object_or_404(Request, id = request_id, product__farmer= request.user)
-    
-    if status in ["Approved", "Rejected"]:
+    req = get_object_or_404(Request, id = request_id, product__owner= request.user)
+
+    if status in ["Approved", "Rejected", "Cancelled"]:
         req.status = status
         req.save()
         
     return redirect('farmer_requests')
+
+@login_required
+@farmer_required
+def cancel_request(request, request_id):
+    return redirect('update_request_status', request_id=request_id, status="Cancelled")
 
 
 @login_required
@@ -54,3 +59,13 @@ def update_request_status(request, request_id, status):
 def buyer_requests_list(request):
     requests = Request.objects.filter(buyers=request.user)
     return render(request, 'request/buyer_requests.html', {'requests': requests})
+
+
+@login_required
+@buyer_required
+def delete_request(request, request_id):
+    req = get_object_or_404(Request, id=request_id, buyer=request.user)
+    if request.method == "POST":
+        req.delete()
+        return redirect('buyer_requests')
+    return render(request, 'request/confirm_delete.html', {'request_obj': req})
