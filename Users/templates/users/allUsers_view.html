@@ -3,7 +3,7 @@
 {% block content %}
 
 {% if request.user.profile.is_farmer %}
-    <h2>All Buyers</h2>
+    <h1>All Buyers</h1>
     {% if buyers %}
     <table>
         <tr>
@@ -28,7 +28,7 @@
 
 {% if request.user.profile.is_buyer %}
     <hr>
-    <h2>All Farmers</h2>
+    <h1>All Farmers</h1>
     {% if farmers %}
     <table>
         <tr>

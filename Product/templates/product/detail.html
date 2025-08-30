@@ -1,21 +1,22 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2> {{product.name}} </h2>
-<h3> {{product.price}} </h3>
-<img src="{{ product.thumbnail.url }}" alt="{{ product.name }}" style="max-width: 250px;">
-<p>{{product.description}}</p>
-<h3> {{product.quantity}} </h3>
-
-{% if user.profile.is_farmer %}
-    <a href="{% url 'edit_product' product.id %}">Edit Product</a>
-    <a href="{% url 'delete_product' product.id %}">Delete Product</a>
-{% endif %}
-
-{% if user.profile.is_buyer %}
-    <a href="{% url 'create_request' product.id %}">Create Request</a>
-{% endif %}
-
-<a href="{% url 'index' %}">cancel</a>
+<div class="product-card" style="max-width:720px; margin:0 auto;">
+    <img src="{{ product.thumbnail.url }}" alt="{{ product.name }}">
+    <div class="product-name">{{ product.name }}</div>
+    <div class="product-price">${{ product.price }}</div>
+    <p>{{ product.description }}</p>
+    <p><strong>Quantity:</strong> {{ product.quantity }} KG</p>
+    <div class="product-actions">
+        <a href="{% url 'index' %}" class="btn btn-outline">Back</a>
+        {% if user.profile.is_farmer and user == product.owner %}
+            <a href="{% url 'edit_product' product.id %}" class="btn">Edit</a>
+            <a href="{% url 'delete_product' product.id %}" class="btn btn-outline">Delete</a>
+        {% endif %}
+        {% if user.profile.is_buyer %}
+            <a href="{% url 'create_request' product.id %}" class="btn">Create Request</a>
+        {% endif %}
+    </div>
+</div>
 
 {% endblock %}

@@ -3,30 +3,36 @@
 
 {% block content %}
 
-<h2>Requests for Your Products</h2>
+<h1>Requests for Your Products</h1>
 <table>
     <tr>
         <th>Product</th>
+        <th>Quantity</th>
         <th>Buyer</th>
         <th>Status</th>
         <th>Last Updated</th>
-        <th>Actions</th>
+        <th class="text-right">Actions</th>
     </tr>
     {% for req in requests %}
     <tr>
         <td>{{ req.product.name }}</td>
+        <td>{{ req.quantity }} KG</td>
         <td>{{ req.buyer.username }}</td>
         <td>{{ req.status }}</td>
         <td>{{ req.updated_at|date:"Y-m-d H:i" }}</td>
-        <td>
+        <td class="text-right">
             {% if req.status == "Pending" or req.status == "Cancelled" %}
-                <a href="{% url 'update_request_status' req.id 'Approved' %}">Approve</a>
-                <a href="{% url 'update_request_status' req.id 'Rejected' %}">Reject</a>
+                <a href="{% url 'update_request_status' req.id 'Approved' %}" class="btn">Approve</a>
+                <a href="{% url 'update_request_status' req.id 'Rejected' %}" class="btn btn-outline">Reject</a>
             {% endif %}
             {% if req.status == "Approved" or req.status == "Rejected" %}
-                <a href="{% url 'cancel_request' req.id %}">Cancel</a>
+                <a href="{% url 'cancel_request' req.id %}" class="btn btn-outline">Cancel</a>
             {% endif %}
         </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="5">No requests found.</td>
     </tr>
     {% endfor %}
 </table>

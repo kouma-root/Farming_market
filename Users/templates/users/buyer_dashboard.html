@@ -1,51 +1,57 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>Welcome, {{ user.username }} (Buyer)</h2>
-<p>Email: {{ user.email }}</p>
-<p>Location: {{ user.location }}</p>
+<div class="dashboard">
+    <aside class="dashboard-sidebar">
+        <h2>Welcome, {{ user.username }}</h2>
+        <p>Email: {{ user.email }}</p>
+        <p>Role: {{ user.role }}</p>
+        <p>Phone Number: {{ user.phone_number }}</p>
+        <p>Created at: {{ user.date_joined }}</p>
+        <p>Location: {{ user.location }}</p>
+    </aside>
+    <section class="dashboard-main">
+        <div class="stats-panel">
+            <div class="stats-card">
+                <div class="stat-title">Total Requests</div>
+                <div class="stat-value">{{ stats.total_requests }}</div>
+            </div>
+            <div class="stats-card">
+                <div class="stat-title">Pending</div>
+                <div class="stat-value">{{ stats.pending_requests }}</div>
+            </div>
+            <div class="stats-card">
+                <div class="stat-title">Approved</div>
+                <div class="stat-value">{{ stats.approved_requests }}</div>
+            </div>
+            <div class="stats-card">
+                <div class="stat-title">Rejected</div>
+                <div class="stat-value">{{ stats.rejected_requests }}</div>
+            </div>
+            <div class="stats-card">
+                <div class="stat-title">Cancelled</div>
+                <div class="stat-value">{{ stats.cancelled_requests }}</div>
+            </div>
+        </div>
 
-<h3>Statistics</h3>
-
-<table>
-    <tr>
-        <th>Status</th>
-        <th>Count</th>
-    </tr>
-    <tr>
-        <td>Total Requests</td>
-        <td>{{ stats.total_requests }}</td>
-    </tr>
-    <tr>
-        <td>Pending Requests</td>
-        <td>{{ stats.pending_requests }}</td>
-    </tr>
-    <tr>
-        <td>Approved Requests</td>
-        <td>{{ stats.approved_requests }}</td>
-    </tr>
-    <tr>
-        <td>Rejected Requests</td>
-        <td>{{ stats.rejected_requests }}</td>
-    </tr>
-    <tr>
-        <td>Cancelled Requests</td>
-        <td>{{ stats.cancelled_requests }}</td>
-    </tr>
-</table>
-
-<h3>Your Recent Requests</h3>
-<table>
-    <tr>
-        <th>Product</th>
-        <th>Quantity</th>
-        <th>Status</th>
-    </tr>
-    {% for req in requests|slice:":5" %}
-    <tr>
-        <td>{{ req.product.name }}</td>
-        <td>{{ req.quantity }}</td>
-        <td>{{ req.status }}</td>
-    </tr>
-    {% empty %}
-</table>
+        <h3>Your Recent Requests</h3>
+        <table>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Status</th>
+            </tr>
+            {% for req in requests|slice:":5" %}
+            <tr>
+                <td>{{ req.product.name }}</td>
+                <td>{{ req.quantity }}</td>
+                <td>{{ req.status }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3">No requests found.</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </section>
+</div>
 {% endblock %}

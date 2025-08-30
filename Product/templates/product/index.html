@@ -1,16 +1,33 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{% for product in products %}
-
-    <h2>Name: {{ product.name }}</h2>
-    <h2>Quantity: {{ product.quantity }}</h2>
-    <h2>Price: {{ product.price }}</h2>
-    <h2>Owner: {{ product.owner.username }}</h2>
-    <img src="{{ product.thumbnail.url }}" alt="{{ product.name }}" style="max-width: 250px;">
-
-    <a href="{{ product.get_absolute_url }}">View Product</a>
-    
-
-{% endfor %} 
+{% if user.profile.is_farmer %}
+    <h1>Inventory</h1>
+{% else %}
+    <h1>Market</h1>
+{% endif %}
+                <form class="navbar-search" method="POST" action="{% url 'search_product' %}">
+                    {% csrf_token %}
+                    <input class="search-input" type="search" name="searched" placeholder="Search products...">
+                    <button type="submit" class="btn">Search</button>
+                </form>
+<div class="product-grid">
+    {% for product in products %}
+        <div class="product-card">
+            <img src="{{ product.thumbnail.url }}" alt="{{ product.name }}">
+            <div class="product-name">{{ product.name }}</div>
+            <div class="product-price">{{ product.price }}Naira</div>
+            <div class="product-description">{{ product.description }}</div>
+            <div class="product-owner">{{product.owner}}</div>
+            <div class="product-actions">
+                <a href="{{ product.get_absolute_url }}" class="btn btn-outline">View</a>
+                {% if user.profile.is_farmer and user == product.owner %}
+                    <a href="{% url 'edit_product' product.id %}" class="btn">Edit</a>
+                {% endif %}
+            </div>
+        </div>
+    {% empty %}
+        <p>No products found.</p>
+    {% endfor %}
+</div>
 {% endblock %}

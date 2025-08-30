@@ -4,42 +4,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>{% block title %}Farming Market{% endblock %}</title>
+    <link rel="icon" href="{% static 'favicon.ico' %}">
 </head>
 <body>
-    <title>{% block title %}Farming Market{% endblock %}</title>
-    <a href="{% url 'index' %}"><h1>FARMING MARKET</h1></a>
+    <nav class="navbar">
+        <div class="container navbar-inner">
+            <a href="{% url 'index' %}" class="navbar-brand">FARMING MARKET</a>
+            <div class="navbar-actions">
+                <div class="navbar-links">
+                    {% if not user.is_authenticated %}
+                        <a href="{% url 'register' %}">Register</a>
+                        <a href="{% url 'login' %}">Login</a>
+                    {% else %}
+                        {% if user.profile.is_farmer %}
+                            <a href="{% url 'index' %}">Inventory</a>
+                            <a href="{% url 'add_product' %}">Add Product</a>
+                            <a href="{% url 'allUsers' %}">Buyers</a>
+                            <a href="{% url 'farmer_requests' %}">Requests</a>
+                            <a href="{% url 'farmer_dashboard' %}">Dashboard</a>
+                        {% else %}
+                            <a href="{% url 'index' %}">Market</a>
+                            <a href="{% url 'buyer_requests' %}">Requests</a>
+                            <a href="{% url 'allUsers' %}">Farmers</a>
+                            <a href="{% url 'buyer_dashboard' %}">Dashboard</a>
+                        {% endif %}
+                        <div>
+                            <span class="navbar-user">{{ user.username }}</span>
+                            <a href="{% url 'logout' %}">Logout</a>
+                        </div>
+                        
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
 
-    <form method=POST action="{% url 'search_product' %}">
-        {% csrf_token %}
-        <input type="search" name="searched" placeholder="Search Products">
-        <button type="submit">Search</button>
-    </form>
-    
-    {% if not user.is_authenticated %}
-
-        <a href="{% url 'register' %}">Register</a>
-        <a href="{% url 'login' %}">Login</a>
-
-    {% else %}
-
-        {{ user.username }}
-        <a href="{% url 'logout' %}">Logout</a>
-        <a href="{% url 'index' %}">Market</a>
-        {% if user.profile.is_farmer %}
-        <a href="{% url 'add_product' %}">Add Product</a>
-        <a href="{% url 'allUsers' %}">All Buyers</a>
-        <a href="{% url 'farmer_dashboard' %}">Dashboard</a>
-        <a href="{% url 'farmer_requests' %}">View Requests</a>
-        {% else %}
-        <a href="{% url 'buyer_requests' %}">Your Requests</a>
-        <a href="{% url 'allUsers' %}">All Farmers</a>
-        <a href="{% url 'buyer_dashboard' %}">Dashboard</a>
-        {% endif %}
-        
-    {% endif %}
-    {% block content %}
-        
-    {% endblock %}
+    <main class="container">
+        {% block content %}
+        {% endblock %}
+    </main>
 </body>
-</html> 
+</html>

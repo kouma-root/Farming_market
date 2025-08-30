@@ -1,9 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
-  <h2>Are you sure you want to delete your request for "{{ request_obj.product.name }}"?</h2>
+  <h1>Delete Request</h1>
+  <p>Are you sure you want to delete your request for "{{ request_obj.product.name }}"?</p>
   <form method="post">
     {% csrf_token %}
-    <button type="submit">Yes, delete</button>
-    <a href="{% url 'buyer_requests' %}">Cancel</a>
+    <div class="form-actions">
+        <a href="{% url 'buyer_requests' %}" class="btn btn-outline">Cancel</a>
+        <button type="submit" class="btn">Yes, delete</button>
+    </div>
   </form>
 {% endblock %}

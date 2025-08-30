@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>Add New Product</h2>
-
+<h1>Add New Product</h1>
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Add Product</button>
+    <div class="form-actions">
+        <a href="{% url 'index' %}" class="btn btn-outline">Cancel</a>
+        <button type="submit" class="btn">Add Product</button>
+    </div>
 </form>
 {% endblock %}

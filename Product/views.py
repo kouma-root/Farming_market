@@ -48,7 +48,7 @@ def edit_product(request, item_id):
         form = ItemForm(request.POST, request.FILES, instance=item)
         if form.is_valid():
             form.save()
-            return redirect("detail", slug=item.slug)
+            return redirect("product", slug=item.slug)
     else:
         form = ItemForm(instance=item)
     return render(request, "product/edit_product.html", {"form": form, "item": item})
